@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 스프링 MVC의 기본 설정을 해주는 태그 -->
+	<annotation-driven />
+
+	<!-- 외부 자원의 위치를 설정하면 캐싱을 해주는 설정  -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Controller에서 redirect가 붙지 않았거나 전체 절대경로가 아닌 경우에
+	출력할 jsp 파일의 위치를 설정 -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="1"/>
+	</beans:bean>
+	
+	<!-- 직접 출력할 뷰를 설정할 수 있도록 해주는 설정 -->
+	<beans:bean 
+		class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="0"/>
+	</beans:bean>
+	
+	<beans:bean  id ="excel"
+	class="gmail.ggangpae1.view.display.ExcelView" />
+	
+	<beans:bean id="pdf"
+	class="gmail.ggangpae1.view.display.PdfView" />
+	
+	<beans:bean id="json"
+class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"
+/>
+	<!-- list라는 데이터를 xml 이라는 요청에서 
+	xml 파일을 이용해서 출력하도록 해주는 설정 -->
+	<!-- 출력할 데이터를 소유하고 있는 클래스를 설정 -->
+	<beans:bean id="marshaller"
+		class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<beans:property name="classesToBeBound">
+			<beans:list>
+				<beans:value>gmail.ggangpae1.view.domain.BookReport</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	
+	<!-- 뷰와 출력할 데이터 설정 -->
+	<beans:bean id="xml"
+	class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<beans:property name="marshaller" ref="marshaller" />
+		<beans:property name="modelKey" value="list" />
+	</beans:bean>
+	
+	
+	<!-- 어노테이션이 붙은 클래스의 bean을 자동으로 생성해주는 패키지 설정
+	모든 클래스는 이 패키지 안에 만드는 것을 권장 -->
+	<context:component-scan base-package="gmail.ggangpae1.view" />
+	
+	<!-- Controller가 처리하지 못하는 요청은 WAS에게 처리하도록 해주는 설정
+	이 설정이 없으면 js, css, 이미지 파일등의 링크는 404에러 -->
+	<default-servlet-handler/>
+	
+</beans:beans>
+
+
+
+

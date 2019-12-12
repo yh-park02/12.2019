@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+	
+	<!-- 테이블과 DTO 설정 
+	여기가 잘못되면 여기서 에러 표시가 보이거나 
+	예외에 보면 프로퍼티나 table 또는 column 오류가 출력-->
+	<hibernate-mapping package="naver.yh_park02.domain">
+		<class name="Item" table="Item">
+			<id name="code" column="code" />
+			<property name="name" column="name"/>
+			<property name="manufacture" column="manufacture"/>
+			<property name="price" column="price"/>
+		</class>
+	</hibernate-mapping>
